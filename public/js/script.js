@@ -34,8 +34,6 @@ function setHeroImage() {
     const featuresEL = document.querySelector('.features'); 
     const screenWidth = window.innerWidth; 
     newHeroEL.alt = `A picture of a ${vehicleName}`; 
-    newHeroEL.style.width = '100%';
-    newHeroEL.style.height = 'auto'; 
 
 
     if (screenWidth < 400) {
