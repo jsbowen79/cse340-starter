@@ -6,7 +6,6 @@ const Util = {}
  ************************** */
 Util.getNav = async function (req, res, next) {
   let data = await invModel.getClassifications()
-  console.log(data)
   let list = "<ul>"
   list += '<li><a href="/" title="Home page">Home</a></li>'
   data.rows.forEach((row) => {
@@ -58,12 +57,42 @@ Util.buildClassificationGrid = async function(data){
   return grid
 }
 
+//Build Detail View
+
+Util.buildProductDetail = async function (data) {
+  const price = data.inv_price;
+  const formattedPrice = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD'
+  }).format(price); 
+  const mileage = new Intl.NumberFormat('en-US').format(data.inv_miles); 
+  
+  let details;
+  if (data) {
+    details=  `<img class="hero details" src="${data.inv_image}" alt='Image of ${data.inv_make} ${data.inv_model}  on CSE Motors'>
+    <h2 class="details">
+    ${data.inv_year} ${data.inv_make} ${data.inv_model}
+    </h2>
+    <p class="details">Mileage -- ${mileage}</p>
+    <p class="details">Color : ${data.inv_color}</p>
+    <h3 class="details">Great Price! -- ${formattedPrice}</h3>
+    <p class="details">${data.inv_description}</p>`
+  } else {
+    details = "<h2>Sorry!  The car you were looking for was just too fast!  It is long gone!</h2>"
+  }
+  return details;
+}
+
+
 /* ****************************************
  * Middleware For Handling Errors
  * Wrap other function in this for 
  * General Error Handling
  **************************************** */
 Util.handleErrors = fn => (req, res, next) => Promise.resolve(fn(req, res, next)).catch(next)
+
+
+
 
 
 module.exports = Util

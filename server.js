@@ -13,12 +13,22 @@ const app = express()
 const static = require("./routes/static")
 const baseController = require("./controllers/baseController")
 const inventoryRoute = require("./routes/inventoryRoute.js")
+const inventoryDetailsRoute = require("./routes/inventoryDetailsRoute.js")
 /* ***********************
  * View Engine and Templates
  *************************/
 app.set("view engine", "ejs")
 app.use(expressLayouts)
 app.set("layout", "./layouts/layout") // not at views root
+
+
+//Debugging
+app.use((req, res, next) => {
+  console.log(`➡️ ${req.method} ${req.url}`);
+  next();
+});
+
+
 
 /* ***********************
  * Routes
@@ -30,6 +40,9 @@ app.get("/", utilities.handleErrors(baseController.buildHome))
 
 //Inventory Route
 app.use("/inv", inventoryRoute)
+
+//Inventory Detail Route
+app.use("/inv/detail" , inventoryDetailsRoute)
 
 // File Not Found Route - must be last route in list
 app.use(async (req, res, next) => {

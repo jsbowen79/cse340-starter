@@ -40,7 +40,7 @@ CONSTRAINT account_pkey PRIMARY KEY (account_id)
 );
 
 INSERT INTO public.classification (classification_name)
-VALUES ('custom'), 
+VALUES ('Custom'), 
 ('Sport'), 
 ('SUV'), 
 ('Truck'),
