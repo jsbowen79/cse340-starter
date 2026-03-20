@@ -49,12 +49,19 @@ app.use("/inv/detail", inventoryDetailsRoute)
 app.use("/test", testRoute)
 
 // File Not Found Route - must be last route in list
-app.use((req, res, next) => {
+app.use(async(req, res, next) => {
   const message = "That car was just too fast for you! You can't afford the insurance"
+  let nav; 
+  try {
+    nav = await utilities.getNav()
+  } catch (navErr) {
+    console.error("Failed to build navigation: ", navErr.message); 
+    nav = null; 
+  }
   res.status(404).render("errors/error", {
     title: 404,
     message,
-    nav: null 
+    nav 
   })
 })
 
@@ -65,14 +72,24 @@ app.use((req, res, next) => {
 
 //500 handler
 app.use(async (err, req, res, next) => {
-  let nav = await utilities.getNav()
+  let nav; 
+  try {
+    nav = await utilities.getNav()
+  } catch (navErr) {
+    console.error("Failed to build navigation: ", navErr.message); 
+    nav = null; 
+  }
+
   console.error(`Error at: "${req.originalUrl}": ${err.message}`)
   const status = err.status || 500; 
   let message; 
   if(status === 404){ message = 'Oh no! There was a crash. Maybe try a different route?  ' + status}
   else if (status === 500) {
     message = "Oh no, You left skid marks on our server!   " + status
+  } else {
+    message = err.message || "An unexpected error occurred.";
   }
+
   res.status(status)
   res.render("errors/error", {
     title: status === 500 ? 'Server Error' : status,
