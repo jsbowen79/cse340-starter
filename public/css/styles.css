@@ -8,6 +8,10 @@
   color: var(--primary-text);
   font-size: 14px; 
 }
+
+input, textarea, select{
+  color: black; 
+}
 /***********Global Variables*********/
 :root{
   --primary-background: #0B1F3A; 
@@ -99,6 +103,10 @@ nav ul li{
   height: auto; 
 }
 
+.details{
+  
+}
+
 
 .features{
   display: none;
@@ -146,7 +154,11 @@ font-size: 18px;
 }
 
 .details{
-  padding: var(--small); 
+  padding: var(--small);
+  @media screen and (min-width: 430px){
+    display: grid; 
+    grid-template-columns: 1fr 1fr;
+  } 
 }
 
 /****************infoWrapper*****************/
@@ -210,6 +222,52 @@ footer p{
   padding: var(--small);
 }
 
+.notice{
+  background-color: yellow;
+  margin: 0 10px; 
+  list-style: none;
+  width: fit-content; 
+  border-radius: 8px;
+  li{
+    color:black; 
+    padding: 8px; 
+  }
+}
+/*****************Login Form******************************/
+.loginForm{
+  max-width: 300px;
+  width: 90%;
+  margin: 0 auto; 
+
+}
+
+#password{
+  color: black; 
+}
+
+#accountBtn{
+  background-color: var(--accent-background); 
+  border-radius: 10px;
+  justify-self: center;  
+  color: var(--primary-text); 
+  padding: 8px; 
+  width: fit-content; 
+  margin: 10px auto; 
+}
+
+.loginForm div{
+  margin: 10px auto; 
+  display: flex; 
+  flex-direction: column;
+}
+
+.pswdMsg{
+  font-size: 11.5px;
+}
+
+#pswdBtn{
+  margin: 8px 0; 
+}
 
 /*********************large screens************************/
 

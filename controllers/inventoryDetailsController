@@ -20,6 +20,7 @@ detailCont.buildProductDetail = async function (req, res, next) {
         title: makeModel, 
         nav, 
         details,
+        errors: null,
     })
     console.log("CONTROLLER DATA:", data)
     console.log("RENDERING DETAILS:", details);

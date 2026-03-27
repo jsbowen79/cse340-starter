@@ -70,18 +70,23 @@ Util.buildProductDetail = async function (data) {
   let details;
   if (data) {
     details=  `<img class="hero details" src="${data.inv_image}" alt='Image of ${data.inv_make} ${data.inv_model}  on CSE Motors'>
-    <h2 class="details">
+    <div class="details">
+    <div>
+    <h2>
     ${data.inv_year} ${data.inv_make} ${data.inv_model}
     </h2>
-    <p class="details">Mileage -- ${mileage}</p>
-    <p class="details">Color : ${data.inv_color}</p>
-    <h3 class="details">Great Price! -- ${formattedPrice}</h3>
-    <p class="details">${data.inv_description}</p>`
+    <h3 class>Great Price! -- ${formattedPrice}</h3>
+    <p>Mileage -- ${mileage}</p>
+    <p>Color : ${data.inv_color}</p>
+    </div>
+    <p>${data.inv_description}</p>
+    </div>`
   } else {
     details = "<h2>Sorry!  The car you were looking for was just too fast!  It is long gone!</h2>"
   }
   return details;
 }
+
 
 
 /* ****************************************
