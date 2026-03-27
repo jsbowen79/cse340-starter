@@ -69,8 +69,9 @@ Util.buildProductDetail = async function (data) {
   
   let details;
   if (data) {
-    details=  `<img class="hero details" src="${data.inv_image}" alt='Image of ${data.inv_make} ${data.inv_model}  on CSE Motors'>
-    <div class="details">
+    details = `<div id="detailsWrapper">
+    <img id="heroDetails" src="${data.inv_image}" alt='Image of ${data.inv_make} ${data.inv_model}  on CSE Motors'>
+    <div id="details">
     <div>
     <h2>
     ${data.inv_year} ${data.inv_make} ${data.inv_model}
@@ -79,7 +80,8 @@ Util.buildProductDetail = async function (data) {
     <p>Mileage -- ${mileage}</p>
     <p>Color : ${data.inv_color}</p>
     </div>
-    <p>${data.inv_description}</p>
+    <p id="description">${data.inv_description}</p>
+    </div>
     </div>`
   } else {
     details = "<h2>Sorry!  The car you were looking for was just too fast!  It is long gone!</h2>"

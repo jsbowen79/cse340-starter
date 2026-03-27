@@ -103,11 +103,6 @@ nav ul li{
   height: auto; 
 }
 
-.details{
-  
-}
-
-
 .features{
   display: none;
   flex-direction: column;
@@ -153,12 +148,38 @@ h3, h3 span{
 font-size: 18px;
 }
 
-.details{
+
+#heroDetails{
+  display: block; 
+  width: auto; 
+  max-width: 100%;
+}
+
+#detailsWrapper #details{
+  width: 100%; 
+}
+
+#details{
   padding: var(--small);
-  @media screen and (min-width: 430px){
-    display: grid; 
-    grid-template-columns: 1fr 1fr;
-  } 
+} 
+
+@media screen and (min-width: 570px){
+  #detailsWrapper{
+    width: 75%; 
+    justify-self: center; 
+    justify-items: center;
+  }
+  #details{
+  display: grid; 
+  grid-template-columns: 1fr 1fr;
+  text-align: right;
+  h2, h3, p {
+    margin: 0 25px; 
+  }
+  #description{
+    text-align: left;
+  }
+}
 }
 
 /****************infoWrapper*****************/
@@ -301,6 +322,4 @@ footer p{
   h2, h3, h3 span{
     font-size: 23px;
   }
-
-
 }
