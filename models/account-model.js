@@ -1,3 +1,4 @@
+const { check } = require("express-validator");
 const pool = require("../database/index"); 
 
 /******************************
@@ -13,5 +14,22 @@ async function registerAccount(account_firstname, account_lastname, account_emai
     }
 }
 
+/**********************************************************************
+ * Check for existing email
+ ******************************************************************* */
+async function checkExistingEmail(account_email) {
+    try {
+        const sql = "SELECT * FROM account where account_email = $1"
+        const result = await pool.query(sql, [account_email])
 
-module.exports = { registerAccount }
+        console.log("Query Result: ", result)
+        console.log("Rows: ", result.rows)
+        console.log("Row Count", result.rowCount)
+
+        return result.rowCount
+    } catch (error) {
+        return error.message
+    }
+}
+
+module.exports = { registerAccount, checkExistingEmail }

@@ -10,15 +10,19 @@ const express = require("express")
 const expressLayouts = require("express-ejs-layouts")
 const env = require("dotenv").config()
 const app = express()
+const session = require("express-session")
+const pool = require('./database/')
+const bodyParser = require("body-parser")
+
 const static = require("./routes/static")
 const baseController = require("./controllers/baseController")
 const inventoryRoute = require("./routes/inventoryRoute.js")
 const inventoryDetailsRoute = require("./routes/inventoryDetailsRoute")
 const testRoute = require('./routes/testRoute')
-const session = require("express-session")
-const pool = require('./database/')
 const accountRoute = require('./routes/accountRoute')
-const bodyParser = require("body-parser")
+const managementRoute = require('./routes/inventoryRoute')
+
+
 /* ***********************
  * Middleware
  * ************************/
@@ -77,6 +81,10 @@ app.use("/test", testRoute)
 
 //Sign in Route
 app.use("/account", accountRoute)
+
+//Inventory Management Route
+app.use("/inv/management", managementRoute)
+
 
 // File Not Found Route - must be last route in list
 app.use(async(req, res, next) => {

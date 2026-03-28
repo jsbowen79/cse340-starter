@@ -14,15 +14,35 @@
 <form method="post" action="/account/register" class="loginForm">
     <div>
         <label for="fname">First Name</label>
-        <input type="text" id="fname" name="account_firstname" autocomplete="on" required placeholder="First Name (e.g. John)">
+        <input type="text" 
+        id="fname" 
+        name="account_firstname" 
+        autocomplete="on" 
+        required 
+        placeholder="First Name (e.g. John)"
+        value="<%= locals.account_firstname %>"
+        >
     </div>
     <div>
         <label for="lname">Last Name</label>
-        <input type="text" id="lname" name="account_lastname" autocomplete="on" required placeholder="Last Name (e.g. Doe)">
+        <input type="text" 
+        id="lname" 
+        name="account_lastname" 
+        autocomplete="on" 
+        required 
+        placeholder="Last Name (e.g. Doe)"
+        value="<%= locals.account_lastname %>"
+        >
     </div>
     <div>
         <label for="email">Email Address</label>
-        <input type="email" name="account_email" id="email" autocomplete="on" placeholder="myaddress@myISP.com">
+        <input type="email" 
+        name="account_email" 
+        id="email" 
+        autocomplete="on" 
+        placeholder="myaddress@myISP.com"
+        value="<%= locals.account_email %>"
+        >
     </div>
     <div>
         <label for="password">Password</label>

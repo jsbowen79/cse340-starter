@@ -1,0 +1,36 @@
+<h1>
+    <%= title %>
+</h1>
+
+<%- messages() %>
+
+<% if (errors) { %>
+    <ul class="notice">
+        <% errors.array().forEach(error=> { %>
+            <li>
+                <%= error.msg %>
+            </li>
+            <% }) %>
+    </ul>
+    <% }%>
+<div class="management">
+    <h2>Welcome to the CSE Motors Add Vehicle Classification page</h2>
+    <div>
+        <span class="notice">Important!</span>
+        <span class="notice">Vehicle classification names must not contain spaces or special characters!</span>
+    </div>
+    
+    <form action="/inv/add-classification" method="post" class="loginForm">
+       <div>
+           <label for="classification_name">Please enter the name for your new Vehicle Classification</label>
+           <input type="text"
+           pattern="[a-zA-Z0-9]+" 
+           title="No spaces or special characters allowed"
+           id="classification_name"
+           name="classification_name"
+           required>
+        </div>
+
+        <div class="options"><button type="submit">Add Vehicle Classification</button></div>
+    </form>
+</div>

@@ -1,0 +1,106 @@
+<h1>
+    <%= title %>
+</h1>
+
+<%- messages() %>
+
+<% if (errors) { %>
+    <ul class="notice">
+        <% errors.array().forEach(error=> { %>
+            <li>
+                <%= error.msg %>
+            </li>
+            <% }) %>
+    </ul>
+    <% }%>
+
+    <div class="management">
+        <h2>Welcome to the CSE Motors Add Vehicle to Inventory page</h2>
+    
+        <form action="/inv/add-inventory" method="post" id="invForm">
+            <div>
+                <label for="inv_make">Please enter the vehicles Manufacturer (Make).</label>
+                <input type="text" 
+                    id="inv_make"
+                     name="inv_make"
+                     placeholder="e.g. Ford, Chevy, Honda"
+                     value="<%= locals.inv_make %>" 
+                     required>
+            </div>
+            <div>
+                <label for="inv_model">Please enter the vehicles Model</label>
+                <input type="text"
+                id="inv_model"
+                name="inv_model"
+                placeholder="e.g. F150, Tahoe, CRV"
+                value="<%= locals.inv_model %>"
+                required>
+            </div>
+            <div>
+                <label for="inv_year">Please enter the Production year (4 digits).</label>
+                <input type="number"
+                pattern="\d{4}"
+                id="inv_year"
+                name="inv_year"
+                placeholder="2021 (4 Digits Please)"
+                value="<%= locals.inv_year %>"
+                required>
+            </div>
+            <div>
+                <textarea name="inv_description" id="inv_description" required
+                    placeholder="Description"><%= locals.inv_description ? locals.inv_description : '' %></textarea>
+            
+            </div>
+            <div>
+                <label for="inv_image">Please enter a URL for a full size image of the Vehicle</label>
+                <input type="text"
+                id="inv_image"
+                name="inv_image"
+                value="<%= locals.inv_image || '/images/vehicles/no-image.png' %>"
+                required>
+            </div>
+            <div>
+                <label for="inv_thumbnail">Please enter a URL for a thumbnail size image of the Vehicle</label>
+                <input type="text"
+                id="inv_thumbnail" 
+                name="inv_thumbnail" 
+                value="<%= locals.inv_thumbnail || '/images/vehicles/no-image-tn.png' %>" 
+                required>
+            </div>
+            <div>
+                <label for="inv_price">Please enter the price of the Vehicle (numbers only).</label>
+                <input type="number" 
+                id="inv_price" 
+                name="inv_price" 
+                placeholder="e.g. 20000 (no special characters)"
+                pattern="\\d{4,6}"
+                value="<%= locals.inv_price %>"
+                required>
+            </div>
+            <div>
+                <label for="inv_miles">Please enter the current mileage of the Vehicle (numbers only)</label>
+                <input type="number" 
+                id="inv_miles" 
+                name="inv_miles" 
+                placeholder="e.g. 150000 (no special characters)" 
+                pattern="\\d{1,6}"
+                value="<%= locals.inv_miles %>"
+                required>
+            </div>
+            <div>
+                <label for="inv_color">Please enter the color of the Vehicle</label>
+                <input type="text" 
+                id="inv_color" 
+                name="inv_color" 
+                placeholder="e.g. Red, Black, Blue"
+                value="<%= locals.inv_color %>" 
+                required>
+            </div>    
+            <div>
+                <label for="classification_id">Please select the Classification Id of the Vehicle</label>
+                <%- include('../partials/classificationList') %>
+            </div>
+       
+            <div class="options"><button type="submit">Add Vehicle</button></div>
+        </form>
+        </div>  

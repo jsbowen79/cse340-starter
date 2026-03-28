@@ -4,14 +4,32 @@
 
 <%- messages() %>
 
+<% if (errors) { %>
+    <ul class="notice">
+        <% errors.array().forEach(error=> { %>
+            <li>
+                <%= error.msg %>
+            </li>
+            <% }) %>
+    </ul>
+    <% }%>
+
     <form method="POST" action="/account/login" class="loginForm">
         <div>
             <label>Email:</label>
-            <input type="email" name="email" required>
+            <input type="email" 
+            name="account_email" 
+            required
+            value="<%= locals.account_email %>">
         </div>
         <div>
             <label>Password:</label>
-            <input type="password" name="password" pattern="(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*\-]).{12,}" required>
+            <input type="password" 
+            name="account_password" 
+            pattern="(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*\-]).{12,}" 
+            required
+            
+            >
             <div class="pswdMsg">Password must include at least 12 characters and have at least 1 uppercase character, 1 number and 1 special
                 character.</div>
             <button type="submit" id="accountBtn">Login</button>

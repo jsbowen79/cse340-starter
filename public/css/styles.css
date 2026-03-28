@@ -9,7 +9,7 @@
   font-size: 14px; 
 }
 
-input, textarea, select{
+input, textarea, select, option{
   color: black; 
 }
 /***********Global Variables*********/
@@ -245,7 +245,9 @@ footer p{
 
 .notice{
   background-color: yellow;
-  margin: 0 10px; 
+  color: black;
+  padding: 8px; 
+  margin: 10px; 
   list-style: none;
   width: fit-content; 
   border-radius: 8px;
@@ -289,6 +291,74 @@ footer p{
 #pswdBtn{
   margin: 8px 0; 
 }
+
+.management{
+  h2{
+    width: 100%;
+    margin: 20px auto;
+    text-align: center; 
+  }
+  
+  p{
+   width: 100%; 
+   text-align: center;
+  }
+  
+  span{
+    display: flex; 
+    flex-direction: column;
+    margin: 8px; 
+  }
+
+  form{
+    margin: 8px auto;
+    div{
+      width: fit-content; 
+    } 
+  }  
+  
+  .options{
+    display: flex; 
+    flex-direction: rows;
+    justify-content: space-around;
+    a, button{
+      background-color: var(--accent-background);
+      border:2px black solid;
+      border-radius: 8px;
+      margin: 20px 0; 
+      padding: 8px; 
+    }
+  }
+  
+}
+
+#invForm{
+  display: flex; 
+  flex-direction: column;
+  max-width: 90%;
+  width: fit-content; 
+  /* align-items: center;  */
+
+  div{
+    display: flex; 
+    flex-direction: column;
+    padding: 5px; 
+    margin: 8px;
+    width: 100%;   
+  }
+
+    label, input, textarea{
+      width: 100%; 
+      padding: 5px; 
+      margin: 5px 0; 
+    }
+    
+    textarea{
+      min-height: 120px;
+      height: fit-content;  
+    }
+}
+
 
 /*********************large screens************************/
 
