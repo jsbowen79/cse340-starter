@@ -16,7 +16,7 @@ router.get("/add-inventory", utilities.handleErrors(invController.buildAddInvent
 
 //Route to Inventory Management view
 router.get("/management", utilities.handleErrors(invController.buildManagement)); 
-module.exports = router;
+
 
 //Process the Add Classification Request
 router.post(

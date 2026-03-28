@@ -51,9 +51,10 @@ async function buildAddClassification (req, res, next) {
  ***************************************************************************** */
 
 async function buildAddInventory(req, res, next) {
-  console.log("in Inventory Controller")
   let nav = await utilities.getNav(); 
-  let classificationList = await utilities.buildClassificationList(req.body.classification_id); 
+  const classification_id = req.body?.classification_id || null;
+  let classificationList = await utilities.buildClassificationList(classification_id);
+  ("Controller", classificationList); 
   res.render("inventory/add-inventory", {
     title: "Add a Vehicle Classification",
     nav,
@@ -115,7 +116,8 @@ async function processInventory(req, res) {
     classification_id)
   if (result) {
     let nav = await utilities.getNav(); 
-    let classificationList = await utilities.buildClassificationList(req.body.classification_id); 
+    const classification_id = req.body?.classification_id || null;
+    let classificationList = await utilities.buildClassificationList(classification_id);
     req.flash("notice", `${inv_make} ${inv_model} has been added to the inventory!`),
     
     res.status(201).render("inventory/add-inventory", {
@@ -126,7 +128,8 @@ async function processInventory(req, res) {
     })
   } else {
     let nav = await utilities.getNav(); 
-    let classificationList = await utilities.buildClassificationList(req.body.classification_id); 
+    const classification_id = req.body?.classification_id || null;
+    let classificationList = await utilities.buildClassificationList(classification_id);
     req.flash("notice", "Sorry, there was an error adding the vehicle to inventory.")
     res.status(501).render("inventory/add-inventory", {
       title: "Add a Vehicle to Inventory", 
