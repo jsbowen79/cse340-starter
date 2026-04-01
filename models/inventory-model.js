@@ -38,8 +38,7 @@ async function retrieveDataById(inv_id) {
       WHERE inv_id = $1`,
       [inv_id]
     )
-    console.log('data: ', data);
-    console.log('data.rows: ', data.rows);
+
     return data.rows
   } catch (error) {
     console.error("retrieveDataById error " + error)
@@ -60,7 +59,7 @@ async function processAddInventory(inv_make, inv_model, inv_year,
   inv_description, inv_image, inv_thumbnail, inv_price, inv_miles, inv_color,
   classification_id) {
   
-  console.log("Year Raw: ", json.stringify(inv_year))
+  console.log("Year Raw: ", JSON.stringify(inv_year))
   console.log("Year Length: ", inv_year.length)
   try {
     const sql = "INSERT INTO inventory (inv_make, inv_model, inv_year,"

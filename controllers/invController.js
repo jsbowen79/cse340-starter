@@ -194,7 +194,8 @@ async function processAddClassification(req, res) {
 async function processInventory(req, res) {
   const { inv_year, inv_image, inv_thumbnail,
     inv_price, inv_miles, classification_id } = req.body
-  let {inv_make, inv_model, inv_description, inv_color} = req.body
+  let { inv_make, inv_model, inv_description, inv_color } = req.body
+  
   inv_make = capitalizeFirst(inv_make);
   inv_model = capitalizeFirst(inv_model); 
   inv_description = capitalizeFirst(inv_description); 
@@ -211,6 +212,7 @@ async function processInventory(req, res) {
   const result = await invModel.processAddInventory(inv_make, inv_model, inv_year,
     inv_description, inv_image, inv_thumbnail, inv_price, inv_miles, inv_color,
     classification_id)
+
   if (result) {
     let nav = await utilities.getNav(); 
     const classification_id = req.body?.classification_id || null;
