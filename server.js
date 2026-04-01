@@ -1,4 +1,4 @@
-const utilities = require("./utilities/index.js")
+const utilities = require("./utilities/")
 /* ******************************************
  * This server.js file is the primary file of the 
  * application. It is used to control the project.
@@ -21,7 +21,7 @@ const inventoryDetailsRoute = require("./routes/inventoryDetailsRoute")
 const testRoute = require('./routes/testRoute')
 const accountRoute = require('./routes/accountRoute')
 const managementRoute = require('./routes/inventoryRoute')
-
+const cookieParser = require('cookie-parser')
 
 /* ***********************
  * Middleware
@@ -46,6 +46,13 @@ app.use(function(req, res, next){
 // Body Parser Middleware
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
+
+//Login Middleware
+app.use(cookieParser())
+
+//Verify login Middleware
+app.use(utilities.checkJWTToken)
+
 
 /* ***********************
  * View Engine and Templates

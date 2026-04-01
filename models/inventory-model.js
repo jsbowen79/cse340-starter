@@ -26,6 +26,26 @@ async function getInventoryByClassificationId(classification_id) {
   }
 }
 
+/* ***************************
+ *  Get all inventory item by inv_id
+ * ************************** */
+async function retrieveDataById(inv_id) {
+  try {
+   
+    console.log('inv_id', inv_id)
+    const data = await pool.query(
+      `SELECT * FROM public.inventory   
+      WHERE inv_id = $1`,
+      [inv_id]
+    )
+    console.log('data: ', data);
+    console.log('data.rows: ', data.rows);
+    return data.rows
+  } catch (error) {
+    console.error("retrieveDataById error " + error)
+  }
+}
+
 async function processAddClassification(classification_name) {
   try {
     const sql = "INSERT INTO classification (classification_name) VALUES ($1) RETURNING *"
@@ -39,6 +59,9 @@ async function processAddClassification(classification_name) {
 async function processAddInventory(inv_make, inv_model, inv_year,
   inv_description, inv_image, inv_thumbnail, inv_price, inv_miles, inv_color,
   classification_id) {
+  
+  console.log("Year Raw: ", json.stringify(inv_year))
+  console.log("Year Length: ", inv_year.length)
   try {
     const sql = "INSERT INTO inventory (inv_make, inv_model, inv_year,"
      +" inv_description, inv_image, inv_thumbnail, inv_price, inv_miles, inv_color, "
@@ -52,8 +75,23 @@ async function processAddInventory(inv_make, inv_model, inv_year,
   }
 }
 
+async function updateInventory(inv_make, inv_model, inv_description,
+  inv_image, inv_thumbnail, inv_price, inv_year, inv_miles, inv_color,
+  classification_id, inv_id) {
+  try {
+    const sql = "UPDATE public.inventory SET inv_make = $1, inv_model = $2, inv_description = $3, "
+     +"inv_image = $4, inv_thumbnail= $5, inv_price =$6, inv_year= $7, inv_miles = $8, inv_color = $9, "
+    +"classification_id = $10 WHERE inv_id = $11 RETURNING *"
+    const data = await pool.query(sql, [inv_make, inv_model, 
+      inv_description, inv_image, inv_thumbnail, inv_price, inv_year, inv_miles, inv_color,
+      classification_id, inv_id])
+    return data.rows[0]
+  } catch (error) {
+    console.error("model error: " + error)
+  }
+}
 
 module.exports = {
-  processAddClassification, getClassifications,
-  getInventoryByClassificationId, processAddInventory
+  processAddClassification, getClassifications, retrieveDataById,
+  getInventoryByClassificationId, processAddInventory, updateInventory
 }

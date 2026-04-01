@@ -1,5 +1,5 @@
 const inventoryDetailsModel = require("../models/inventory-details-model"); 
-const utilities = require("../utilities/"); 
+const utilities = require("../utilities"); 
 
 const detailCont = {}; 
 
@@ -10,11 +10,8 @@ detailCont.buildProductDetail = async function (req, res, next) {
     console.log("🚗 ROUTE HIT WITH ID:", req.params.id);
     const inv_id = req.params.id; 
     const data = await inventoryDetailsModel.getProductDetail(inv_id); 
-    console.log("DATA BEFORE:", JSON.stringify(data));
     const details = await utilities.buildProductDetail(data); 
-    console.log("DATA AFTER DETAILS:", JSON.stringify(data));
     let nav = await utilities.getNav(); 
-    console.log("DATA AFTER NAV:", JSON.stringify(data));
     const makeModel = `${data.inv_make} ${data.inv_model}`; 
     res.render("./inventory/productDetails", {
         title: makeModel, 

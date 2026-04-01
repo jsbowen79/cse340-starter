@@ -20,6 +20,7 @@ invValidate.classificationRules = () => {
  * Add Inventory Rules
  ************************************************************************************** */
 invValidate.inventoryRules = () => {
+    console.log('In rules');
   return [
     body("inv_make")
       .trim()
@@ -34,13 +35,11 @@ invValidate.inventoryRules = () => {
     body("inv_year")
         .trim()
         .notEmpty().withMessage("Please enter a year.")
-        .isInt().withMessage("Please enter a Year (Integer)")
-        .isLength({min:4, max:4}).withMessage("Please enter a Year (4 digits)"),
+        .isInt().withMessage("Please enter a Year (Integer)"),
     
     body("inv_description")
         .trim()
         .notEmpty().withMessage("Please enter a Description")
-        .matches(/^[A-Za-z0-9' -.]+$/).withMessage("Please enter a vehicle description (Letters, numbers, ', -, )")
         .isLength({min:20, max:500}).withMessage("Please enter a vehicle description (20 - 500 characters)"),
 
     body("inv_image")
@@ -80,14 +79,12 @@ invValidate.inventoryRules = () => {
     body("inv_price")
         .trim()
         .notEmpty().withMessage("Please enter a price")
-        .isInt().withMessage("Please enter a price (Integer)")
-        .isLength({min:3, max:6}).withMessage("Please enter a price (3 - 6 digits)"),
+        .isInt().withMessage("Please enter a price (Integer)"),
 
     body("inv_miles")
         .trim()
         .notEmpty().withMessage("Please make a mileage entry")
-        .isInt().withMessage("Please enter vehicle mileage (Integer)")
-        .isLength({min:3, max:7}).withMessage("Please enter vehicle mileage (3 - 7 digits)"),
+        .isInt().withMessage("Please enter vehicle mileage (Integer)"),
 
     body("inv_color")
         .trim()
@@ -123,32 +120,69 @@ invValidate.checkClassData = async (req, res, next) => {
 invValidate.checkInventoryData = async (req, res, next) => {
     const { inv_make, inv_model, inv_year, inv_description, inv_image, inv_thumbnail,
         inv_price, inv_miles, inv_color, classification_id} = req.body
-
-    let errors = []
-    errors = validationResult(req)
-    if (!errors.isEmpty()) {
-        let nav = await utilities.getNav(); 
-        const classification_id = req.body?.classification_id || null;
-        let classificationList = await utilities.buildClassificationList(classification_id);
-        res.render("inventory/add-inventory", {
-            errors,
-            title: "Add a Vehicle to Inventory",
-            nav, 
-            classificationList,
-            inv_make,
-            inv_model,
-            inv_year,
-            inv_description,
-            inv_image,
-            inv_thumbnail,
-            inv_price,
-            inv_miles,
-            inv_color,
-            classification_id 
-        })
-        return
+        let errors = []
+        errors = validationResult(req)
+        if (!errors.isEmpty()) {
+            let nav = await utilities.getNav(); 
+            const classification_id = req.body?.classification_id || null;
+            let classificationList = await utilities.buildClassificationList(classification_id);
+            res.render("inventory/add-inventory", {
+                errors,
+                title: "Add a Vehicle to Inventory",
+                nav, 
+                classificationList,
+                inv_make,
+                inv_model,
+                inv_year,
+                inv_description,
+                inv_image,
+                inv_thumbnail,
+                inv_price,
+                inv_miles,
+                inv_color,
+                classification_id 
+            })
+            return
+        }
+        next()
     }
-    next()
+    
+    /****************************************************************************************
+     * Check Inventory data and return errors or continue to Edit Inventory View
+     ************************************************************************************** */
+    invValidate.checkUpdateData = async (req, res, next) => {
+    console.log("In checkUpdateData")
+    const { inv_make, inv_model, inv_year, inv_description, inv_image, inv_thumbnail,
+        inv_price, inv_miles, inv_color, classification_id, inv_id} = req.body
+        
+        let errors = []
+        console.log("Errors: " , errors); 
+        errors = validationResult(req)
+        if (!errors.isEmpty()) {
+            let nav = await utilities.getNav(); 
+            const classification_id = req.body?.classification_id || null;
+            let classificationList = await utilities.buildClassificationList(classification_id);
+            res.render("inventory/edit-inventory", {
+                errors,
+                title: `Edit Inventory: ${inv_make} ${inv_model}`,
+                nav, 
+                classificationList,
+                inv_make,
+                inv_model,
+                inv_year,
+                inv_description,
+                inv_image,
+                inv_thumbnail,
+                inv_price,
+                inv_miles,
+                inv_color,
+                inv_id,
+                classification_id 
+            })
+            return
+        }
+        console.log("leaving updateInventoryData")
+        next()
 }
 
 

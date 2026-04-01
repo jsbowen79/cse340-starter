@@ -321,12 +321,23 @@ footer p{
     display: flex; 
     flex-direction: rows;
     justify-content: space-around;
+    margin: 5px; 
     a, button{
       background-color: var(--accent-background);
       border:2px black solid;
       border-radius: 8px;
       margin: 20px 0; 
       padding: 8px; 
+    }
+  }
+  .dropDown{
+    p{
+      margin: 10px auto; 
+      font-size: clamp(10px, 2.5vw, 18px);
+    }
+    select{
+      display: flex; 
+      margin: 0 auto; 
     }
   }
   

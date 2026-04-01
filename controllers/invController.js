@@ -20,15 +20,112 @@ async function buildByClassificationId (req, res, next) {
 }
 
 /*******************************************************************************
+ * Build  Edit Inventory View
+ ***************************************************************************** */
+
+async function buildEditInventory(req, res, next) {
+  let nav = await utilities.getNav(); 
+  const inv_id = parseInt(req.params?.inv_id) || null; 
+  const inventoryData = await invModel.retrieveDataById(inv_id); 
+
+  const classificationList = await utilities.buildClassificationList(inventoryData.classification_id);
+  const name = `${inventoryData[0].inv_make} ${inventoryData[0].inv_model}`; 
+
+  res.render("inventory/edit-inventory", {
+    title: `Edit Inventory: ${name}`,
+    nav,
+    inv_make : inventoryData[0].inv_make,
+    inv_model : inventoryData[0].inv_model,
+    inv_year : inventoryData[0].inv_year,
+    inv_description : inventoryData[0].inv_description,
+    inv_image : inventoryData[0].inv_image, 
+    inv_thumbnail : inventoryData[0].inv_thumbnail, 
+    inv_price : inventoryData[0].inv_price, 
+    inv_miles : inventoryData[0].inv_miles, 
+    inv_color : inventoryData[0].inv_color,
+    classification_id : inventoryData[0].classification_id,
+    classificationList,
+    inv_id : inventoryData[0].inv_id,
+    errors: null,
+  })
+}
+
+/* ***********************************************************************************************
+ *  Update Inventory Data
+ * ******************************************************************************************** */
+async function updateInventory(req, res, next) {
+  
+  let nav = await utilities.getNav()
+  console.log("nav: " , nav)
+  const {
+    inv_make,
+    inv_model,
+    inv_description,
+    inv_image,
+    inv_thumbnail,
+    inv_price,
+    inv_year,
+    inv_miles,
+    inv_color,
+    classification_id,
+    inv_id
+  } = req.body
+
+  const updateResult = await invModel.updateInventory(
+    inv_make,
+    inv_model,
+    inv_description,
+    inv_image,
+    inv_thumbnail,
+    inv_price,
+    inv_year,
+    inv_miles,
+    inv_color,
+    classification_id,
+    inv_id
+  )
+
+
+  if (updateResult) {
+    const itemName = updateResult.inv_make + " " + updateResult.inv_model
+    req.flash("notice", `The ${itemName} was successfully updated.`)
+    res.redirect("/inv/management")
+  } else {
+    const classificationList = await utilities.buildClassificationList(classification_id)
+    const name = `${inv_make} ${inv_model}`
+    req.flash("notice", "Sorry, the insert failed.")
+    res.status(501).render("inventory/edit-inventory", {
+    title: "Edit " + name,
+    nav,
+    classificationList,
+    errors: null,
+    inv_id,
+    inv_make,
+    inv_model,
+    inv_year,
+    inv_description,
+    inv_image,
+    inv_thumbnail,
+    inv_price,
+    inv_miles,
+    inv_color,
+    classification_id
+    })
+  }
+}
+
+/*******************************************************************************
  * Build Management View
  ***************************************************************************** */
 
 async function buildManagement (req, res, next) {
   let nav = await utilities.getNav(); 
-  let selectList = await utilities.buildClassificationList(); 
+  const classificationList = await utilities.buildClassificationList(); 
+
   res.render("inventory/management", {
     title: "Inventory Management",
     nav,
+    classificationList, 
     errors: null,
   })
 }
@@ -144,9 +241,22 @@ function capitalizeFirst(str) {
   if (!str) return ""
   return str.charAt(0).toUpperCase() + str.slice(1)
 }
+
+/* ***********************************************************************************
+ *  Return Inventory by Classification As JSON
+ * ******************************************************************************** */
+async function getInventoryJSON (req, res, next) {
+  const classification_id = parseInt(req.params.classification_id)
+  const invData = await invModel.getInventoryByClassificationId(classification_id)
+  if (invData[0].inv_id) {
+    return res.json(invData)
+  } else {
+    next(new Error("No data returned"))
+  }
+}
   
 
 module.exports = {
-  processAddClassification, buildAddClassification,
-  buildByClassificationId, buildManagement, processInventory, buildAddInventory 
+  processAddClassification, buildAddClassification, getInventoryJSON, buildEditInventory,
+  buildByClassificationId, buildManagement, processInventory, buildAddInventory, updateInventory
 }
