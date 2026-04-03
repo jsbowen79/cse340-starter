@@ -1,17 +1,54 @@
 <h1>
-<%= title %>
+    <%= title %>
 </h1>
 
-    <%- messages() %>
+<%- messages() %>
 
-        <% if (errors) { %>
-            <ul class="notice">
-                <% errors.array().forEach(error=> { %>
-                    <li>
-                        <%= error.msg %>
-                    </li>
-                    <% }) %>
-            </ul>
-            <% }%>
+<% if (errors) { %>
+    <ul class="notice">
+        <% errors.array().forEach(error=> { %>
+            <li>
+                <%= error.msg %>
+            </li>
+            <% }) %>
+        </ul>
+        <% }%>
+        
+        <div class="management">
+            
+            
+            <div>
+            <% if (accountData.account_type  =="Client" ) { %>
+                <div>
+                    <h2>Hello <%- accountData.account_firstname %></h2>
+                </div>
 
-                <h2>You're Logged in</h2>
+                <div>
+                <% if (showAccount && accountData) { %>
+                    <%- include('../partials/accountInfo') %>
+                    <% } %>
+                    <p><a href="/account/update/<%= accountData.account_id %>">Update Account Information</a></p>
+                </div>
+                    <% } %>
+            </div>
+                
+                
+            <div>
+
+                <% if (accountData.account_type == "Employee" ||  accountData.account_type  =="Admin") { %>
+                    <h2>Hello <%- accountData.account_firstname %></h2>
+                    <% if (showAccount && accountData) { %>
+                        <%- include('../partials/accountInfo') %>
+                        <% } %>
+                    <div>
+                        <p><a href="/account/update/<%= accountData.account_id %>">Update Account Information</a></p>
+                    </div>
+                    <h3>Inventory Management</h3>
+                    <div>
+                        <p><a href="/inv/management">Manage Inventory Here</a></p>
+                    </div>
+                <% } %>
+            </div>
+        </div>   
+                            
+                

@@ -1,5 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     
+    console.log("in Script.js");
+
     if (window.location.pathname === "/") {
         const carsDict = {
     1 :["Adventador", "adventador-tn.jpg", "adventador.jpg"], 2: ["Aerocar", "aerocar-tn.jpg",
@@ -54,19 +56,22 @@ document.addEventListener('DOMContentLoaded', () => {
     setHeroImage(); 
     
 }
-    if (window.location.href.includes('register')) {
-        const pswdBtnEL = document.querySelector('#pswdBtn'); 
+    if (window.location.href.includes('register') || window.location.href.includes('account/update')) {
+        const pswdBtnEL = document.querySelector('.pswdBtn'); 
         if (pswdBtnEL) {
             pswdBtnEL.addEventListener("click", function () {
-                const pswdInput = document.getElementById('password');
+                const pswdInput = document.querySelectorAll('.passwordInput');
                 
-                if (pswdInput.type === "password") {
-                    pswdInput.type = "text";
-                    pswdBtnEL.textContent = "Hide Password";
-                } else {
-                    pswdInput.type = "password";
-                    pswdBtnEL.textContent = "Show Password";
-                }
+                pswdInput.forEach((input) => {
+                    
+                    if (input.type === "password") {
+                        input.type = "text";
+                        pswdInput.textContent = "Hide Password";
+                    } else {
+                        input.type = "password";
+                        pswdInput.textContent = "Show Password";
+                    }
+                })
             });
         }
     }

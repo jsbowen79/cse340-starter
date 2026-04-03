@@ -1,0 +1,67 @@
+<h1>
+    <%= title %>
+</h1>
+    
+    <%- messages() %>
+    
+    <% if (errors) { %>
+        <ul class="notice">
+        <% errors.array().forEach(error=> { %>
+            <li>
+                <%= error.msg %>
+            </li>
+            <% }) %>
+        </ul>
+        <% } %>
+
+
+
+    <form action="/account/update/info" method="post" class="loginForm border">
+        <h3>Please update the information that you would like to change.</h3>
+        <div>
+            <label for="account_firstname">First Name</label>
+            <input type="text" id="account_firstname" name="account_firstname" autocomplete="on" required
+               value="<%- accountData.account_firstname %>">
+        </div>
+        <div>
+            <label for="account_lastname">Last Name</label>
+            <input type="text" id="account_lastname" name="account_lastname" autocomplete="on" required value="<%- accountData.account_lastname %>">
+        </div>
+        <div>
+            <label for="account_email">Email Address</label>
+            <input type="email" name="account_email" id="account_email" autocomplete="on" value="<%- accountData.account_email %>">
+        </div>
+        <div>
+            <input type="hidden" name="account_id" id="accountData.account_id"
+            value="<%- accountData.account_id %>">
+            
+            <button class="updateButton" id="updateAccountBtn" type="submit">Update Account</button>
+        </div>
+    </form>
+
+    <form action="/account/update/password" method="Post" class="loginForm border">
+        <h3>Please enter the following if you would like to change your password.</h3>
+        <div>
+            <label for="currentPassword">Current Password</label>
+            <input type="password" id="currentPassword", name="currentPassword" class="passwordInput">
+
+            <label for="newPassword">New Password</label>
+            <input type="password" id="newPassword" name="newPassword" class="passwordInput"
+            pattern="(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*\-]).{12,}"
+            title="Password must contain at least one uppercase letter, one lowercase letter, one special character, one number, and be a minimum of 12 characters."
+            placeholder="Secret Password">
+            <label for="password">Confirm New Password</label>
+            <input type="password" id="confirmPassword" class="passwordInput" name="confirmPassword"
+                pattern="(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*\-]).{12,}"
+                title="Password must contain at least one uppercase letter, one lowercase letter, one special character, one number, and be a minimum of 12 characters."
+                placeholder="Secret Password">
+        </div>
+        <div class="pswdMsg">Your new password must include at least 12 characters and have at least 1 uppercase character, 1 number
+            and 1 special character.</div>
+            <div>
+                <input type="hidden" name="account_id" id="account_id"
+                value="<%- accountData.account_id %>">
+                <span class="pswdBtn">Show Passwords</span>
+                <button id="updatePasswordBtn" class="updateButton" type="submit">Change Password</button>
+            </div>
+    </form>

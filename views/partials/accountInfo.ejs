@@ -1,0 +1,23 @@
+<div class="accountInfo">
+    <form class="loginForm border">
+        <h3>Your Current Account Information</h3>
+        <div>
+            <label for="account_firstname">First Name</label>
+            <input type="text" id="account_firstname" name="accountData.account_firstname" autocomplete="on" required
+                value="<%- accountData.account_firstname %>"
+                readonly>
+        </div>
+        <div>
+            <label for="account_lastname">Last Name</label>
+            <input type="text" id="account_lastname" name="accountData.account_lastname" autocomplete="on" required
+                value="<%- accountData.account_lastname %>"
+                readonly>
+        </div>
+        <div>
+            <label for="account_email">Email Address</label>
+            <input type="account_email" name="accountData.account_email" id="account_email" autocomplete="on"
+                value="<%- accountData.account_email %>"
+                readonly>
+        </div>
+    </form>
+</div>

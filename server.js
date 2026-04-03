@@ -43,6 +43,13 @@ app.use(function(req, res, next){
   res.locals.messages = require('express-messages')(req, res)
   next()
 })
+
+//Show account info after updates
+app.use((req, res, next) => {
+  res.locals.showAccount = req.flash("showAccount")[0] || false;
+  next();
+})
+
 // Body Parser Middleware
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))

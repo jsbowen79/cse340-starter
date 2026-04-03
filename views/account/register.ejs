@@ -48,14 +48,15 @@
         <label for="password">Password</label>
         <div class="pswdMsg">Password must include at least 12 characters and have at least 1 uppercase character, 1 number and 1 special character.</div>
         <input 
-        type="password" 
+        type="password"
+        class="passwordInput" 
         id="password" 
         name="account_password"
         pattern="(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*\-]).{12,}"
         title="Password must contain at least one uppercase letter, one lowercase letter, one special character, one number, and be a minimum of 12 characters."
         placeholder="Secret Password">
-        <span id="pswdBtn">Show Password</span>
-        <button id="accountBtn" type="submit">Register</button>
+        <span class="pswdBtn">Show Password</span>
+        <button class="updateButtton" id="accountBtn" type="submit">Register</button>
     </div>
 </form>
 

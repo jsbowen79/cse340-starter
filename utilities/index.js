@@ -60,7 +60,9 @@ Util.buildClassificationGrid = async function(data){
   return grid
 }
 
-//Build Detail View
+/* *************************************************************************************************************
+ * Build Detail View
+ ************************************************************************************************************* */
 
 Util.buildProductDetail = async function (data) {
   const price = data.inv_price;
@@ -124,6 +126,8 @@ Util.handleErrors = fn => (req, res, next) => Promise.resolve(fn(req, res, next)
  * Middleware to check token validity
  *********************************************************************************************************** */
 Util.checkJWTToken = (req, res, next) => {
+  res.locals.loggedin = false; 
+
   if (req.cookies.jwt) {
     jwt.verify(
       req.cookies.jwt,
@@ -135,7 +139,7 @@ Util.checkJWTToken = (req, res, next) => {
           return res.redirect("/account/login")
         }
         res.locals.accountData = accountData
-        res.locals.loggedin = 1
+        res.locals.loggedin = true; 
         next()
       })
   } else {
@@ -144,12 +148,31 @@ Util.checkJWTToken = (req, res, next) => {
 }
 
 /*******************************************************************************************************************
+ * Middleware to authorize access to privileged sites. 
+ **************************************************************************************************************** */
+Util.authorization = (req, res, next) => {
+  if (!res.locals.loggedin) {
+    req.flash("notice", "Please log in.");
+    return res.redirect("/account/login"); 
+  }
+
+    if (res.locals.accountData.account_type == "Employee" || res.locals.accountData.account_type == "Admin") {
+    return  next()
+    } else {
+    req.flash("notice", "We're sorry, you aren't authorized to use this page with this account.  Please log in with a different account.");
+    return res.redirect("/account/login"); 
+  } 
+ return next()
+}
+
+
+/*******************************************************************************************************************
  * Check Login
  **************************************************************************************************************** */
 Util.checkLogin = (req, res, next) => {
   console.log("logged in?: " + res.locals.loggedin)
   if (res.locals.loggedin) {
-    next()
+  return  next()
   } else {
     req.flash("notice", "Please log in.")
       return res.redirect("/account/login")

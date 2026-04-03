@@ -9,22 +9,37 @@ const processRules = require("../utilities/inventory-validation")
 router.get("/type/:classificationId", utilities.handleErrors(invController.buildByClassificationId));
 
 //Route to build Add Classification View
-router.get("/add-classification", utilities.handleErrors(invController.buildAddClassification))
+router.get("/add-classification",
+    utilities.authorization,
+    utilities.handleErrors(invController.buildAddClassification))
 
 //Route to build Add Inventory View
-router.get("/add-inventory", utilities.handleErrors(invController.buildAddInventory))
+router.get("/add-inventory",
+    utilities.authorization,
+    utilities.handleErrors(invController.buildAddInventory))
 
 //Route to Inventory Management view
-router.get("/management", utilities.handleErrors(invController.buildManagement)); 
+router.get("/management",
+    utilities.authorization,
+    utilities.handleErrors(invController.buildManagement)); 
 
 //Route to get Inventory by Classification ID
 router.get("/getInventory/:classification_id", utilities.handleErrors(invController.getInventoryJSON))
 
 //Route to edit inventory page
-router.get("/edit/:inv_id", utilities.handleErrors(invController.buildEditInventory))
+router.get("/edit/:inv_id",
+    utilities.authorization,
+    utilities.handleErrors(invController.buildEditInventory))
 
-//Rout to submit inventory edits
+//Route to delete inventory item page
+router.get("/delete/:inv_id",
+    utilities.authorization,
+    utilities.handleErrors(invController.buildDeleteInventory))
+
+
+//Route to submit inventory edits
 router.post("/update/",
+    utilities.authorization,
     processRules.inventoryRules(),
     processRules.checkUpdateData,
     invController.updateInventory
@@ -32,7 +47,8 @@ router.post("/update/",
 
 //Process the Add Classification Request
 router.post(
-    "/add-classification",  
+    "/add-classification", 
+    utilities.authorization,
     processRules.classificationRules(),
     processRules.checkClassData,
     utilities.handleErrors(invController.processAddClassification)
@@ -41,9 +57,15 @@ router.post(
 //Process the Add Inventory Request
 router.post(
     "/add-inventory", 
+    utilities.authorization,
     processRules.inventoryRules(),
     processRules.checkInventoryData,
     utilities.handleErrors(invController.processInventory)
 )
+
+//Process to Delete a vehicle from inventory
+router.post("/delete",
+    utilities.authorization,
+    utilities.handleErrors(invController.deleteVehicle))
 
 module.exports = router; 
