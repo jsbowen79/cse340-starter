@@ -27,7 +27,7 @@ validate.driveRules = () => {
                 }
                 const today = new Date();
                 today.setHours(0, 0, 0, 0)
-                if (dateObj <= today) {
+                if (dateObj < today) {
                     throw new Error("That date has already passed. Please choose a date in the future.");
                 }
                 return true;
@@ -41,23 +41,17 @@ validate.driveRules = () => {
 
 validate.checkDriveData = async (req, res, next) => {
     const { customer_name, drive_date, inv_id, host_id, drive_time } = req.body;
-    console.log(customer_name, drive_date, drive_time,
-        inv_id, host_id, drive_time)
     
     let errors = []; 
     errors = validationResult(req)
-    // console.log("isEmpty:", errors.isEmpty())
-    // console.log("array:", errors.array())
-    
-    // console.log("errors: ", errors)
+ 
     if (!errors.isEmpty()) {
-console.log("Errors is not empty", errors)
-        // const inv_id = req.params.inv_id
         const vehicleDetails = await detailsModel.getProductDetail(inv_id);
            const hostSelect = await driveCont.populateHost(); 
            const vehicleName = `${vehicleDetails.inv_year} ${vehicleDetails.inv_make} ${vehicleDetails.inv_model}`
            const details = await utilities.buildProductDetail(vehicleDetails);
            let nav = await utilities.getNav()
+        const message = errors.msg; 
         res.render("./drive/schedule", {
             title: `Schedule a Test Drive - ${vehicleName}`,
             nav,

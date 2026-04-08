@@ -49,7 +49,6 @@ async function registerAccount(req, res) {
     try {
         hashedPassword=await bcrypt.hashSync(account_password, 10)
     } catch (error) {
-        console.log("password processing failure")
         res.status(500).render("account/register", {
             title: "Registration",
             nav,
@@ -66,7 +65,6 @@ async function registerAccount(req, res) {
     )
 
     if (regResult) {
-        console.log("success")
         res.status(201).render("account/login", {
             title: "Login",
             nav,
@@ -74,7 +72,6 @@ async function registerAccount(req, res) {
             message: `Congratulations, you\'re registered ${account_firstname}. Please log in.`
         })
     } else {
-        console.log("serverfailure")
         res.status(501).render("account/register", {
             title: "Registration", 
             nav,
@@ -107,7 +104,6 @@ async function accountLogin(req, res) {
     try {
 
         if (await bcrypt.compare(account_password, accountData.account_password)) {
-            console.log("Password Matches")
             delete accountData.account_password
             const accessToken = jwt.sign(accountData, process.env.ACCESS_TOKEN_SECRET, { expiresIn: 3600 * 1000 })
 
@@ -119,7 +115,6 @@ async function accountLogin(req, res) {
             return res.redirect("/account/")
 
         } else {
-            console.log("Password doesn't match")
             res.status(400).render("account/login", {
                 title: "Login", 
                 nav, 
@@ -129,7 +124,6 @@ async function accountLogin(req, res) {
             })
         }
     } catch (error) {
-        console.log('ACCESS Forbidden Error', error)
         throw new Error('Access Forbidden', error)
     }
 }
@@ -186,7 +180,6 @@ async function updatePassword(req, res) {
         const match = await bcrypt.compare(currentPassword, account.account_password);
          
         if (!match) {
-            console.log("Passowrd does not match")
             return res.render("account/accountUpdate", {
                 title: "Update Account",
                 nav,
@@ -207,7 +200,6 @@ async function updatePassword(req, res) {
     const errors = validationResult(req); 
 
     if (!errors.isEmpty()) {
-        console.log('Password matches with errors')
         return res.render("account/accountUpdate", {
             title: "Update Account",
             nav,
@@ -215,12 +207,10 @@ async function updatePassword(req, res) {
             message:null
         });
     }
-    console.log("password matches, no errors")
     hashedPassword = await bcrypt.hashSync(confirmPassword, 10); 
     try {
         await accountModel.updatePassword(account_id, hashedPassword);
     } catch (error) {
-        console.log("database error")
         return res.status(500).render("account/accountUpdate", {
             title: "Account Management", 
             nav,
@@ -228,7 +218,6 @@ async function updatePassword(req, res) {
             message:'Sorry, there was a database error updating the password.  Try again.'
             })
     }
-    console.log("Update completed")
     const accountData = await accountModel.getAccountById(account_id)
 
     const accessToken = jwt.sign(accountData, process.env.ACCESS_TOKEN_SECRET, { expiresIn: 3600 * 1000 })

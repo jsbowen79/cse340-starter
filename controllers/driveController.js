@@ -5,7 +5,6 @@ const detailsModel = require("../models/inventory-details-model")
  * Build  Drive  View
  ***************************************************************************** */
 async function buildDrive(req, res, next) {
-    console.log("in drive controller")
 
     const msg = req.query.msg || null; 
     const success = "Your test drive has been scheduled."
@@ -18,7 +17,6 @@ async function buildDrive(req, res, next) {
     if (msg === "vehicle") message = vehicle; 
     if (msg === "host") message = host; 
     if (msg === "unknown") message = unknown; 
-    console.log("message", message)
 
     const inv_id = req.params.inv_id
     const vehicleDetails = await detailsModel.getProductDetail(inv_id);

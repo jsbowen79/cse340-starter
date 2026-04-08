@@ -31,7 +31,7 @@
                 <% if (showAccount && accountData) { %>
                     <%- include('../partials/accountInfo') %>
                     <% } %>
-                    <p><a href="/account/update/<%= accountData.account_id %>">Update Account Information</a></p>
+                    <p><a class="driveButton" href="/account/update/<%= accountData.account_id %>">Update Account Information</a></p>
                 </div>
                     <% } %>
             </div>
@@ -45,11 +45,11 @@
                         <%- include('../partials/accountInfo') %>
                         <% } %>
                     <div>
-                        <p><a href="/account/update/<%= accountData.account_id %>">Update Account Information</a></p>
+                        <p><a class="driveButton" href="/account/update/<%= accountData.account_id %>">Update Account Information</a></p>
                     </div>
                     <h3>Inventory Management</h3>
                     <div>
-                        <p><a href="/inv/management">Manage Inventory Here</a></p>
+                        <p><a class="driveButton" href="/inv/management">Manage Inventory Here</a></p>
                     </div>
                 <% } %>
             </div>
