@@ -187,7 +187,7 @@ async function updatePassword(req, res) {
          
         if (!match) {
             console.log("Passowrd does not match")
-            return res.render("/account/accountUpdate", {
+            return res.render("account/accountUpdate", {
                 title: "Update Account",
                 nav,
                 errors: {
@@ -197,7 +197,7 @@ async function updatePassword(req, res) {
             });
         }
     } catch (error) {
-        return res.status(500).render("/account/accountUpdate", {
+        return res.status(500).render("account/accountUpdate", {
             title: " Update Account",
             nav,
             errors: null,
@@ -208,7 +208,7 @@ async function updatePassword(req, res) {
 
     if (!errors.isEmpty()) {
         console.log('Password matches with errors')
-        return res.render("/account/accountUpdate", {
+        return res.render("account/accountUpdate", {
             title: "Update Account",
             nav,
             errors,
