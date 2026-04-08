@@ -96,19 +96,13 @@ validate.loginRules= () => {
           .notEmpty().withMessage("Please Enter your last name.")
           .isLength({ min: 2 }).withMessage("Your last name is not valid (length)."),
     
-        // valid email is required and cannot already exist in the DB
+        // valid email is required 
         body("account_email")
         .trim()
         .escape()
         .notEmpty().withMessage("Please provide an email.")
         .isEmail().withMessage("This does not appear to be an email address.")
         .normalizeEmail() 
-          .custom(async (account_email) => {
-            const emailExists = await accountModel.checkExistingEmail(account_email)
-            if (emailExists) {
-              throw new Error ("Email exists.  Please use a different email")
-            }
-        }),
       ]
     }
   
