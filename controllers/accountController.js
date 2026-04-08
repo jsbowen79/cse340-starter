@@ -107,6 +107,7 @@ async function accountLogin(req, res) {
     try {
 
         if (await bcrypt.compare(account_password, accountData.account_password)) {
+            console.log("Password Matches")
             delete accountData.account_password
             const accessToken = jwt.sign(accountData, process.env.ACCESS_TOKEN_SECRET, { expiresIn: 3600 * 1000 })
 
@@ -119,6 +120,7 @@ async function accountLogin(req, res) {
 
         } else {
             res.status(400).render("account/login", {
+                console.log("Password doesn't match")
                 title: "Login", 
                 nav, 
                 errors: null, 
@@ -127,7 +129,7 @@ async function accountLogin(req, res) {
             })
         }
     } catch (error) {
-        throw new Error('Access Forbidden')
+        throw new Error('Access Forbidden', error)
     }
 }
 

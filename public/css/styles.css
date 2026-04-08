@@ -25,6 +25,10 @@ input, textarea, select, option{
   --small: 6px; 
 }
 
+li{
+  list-style: none;
+}
+
 /***************background**************/
 html {
   background-color: #fff;
@@ -310,9 +314,9 @@ footer p{
   display: flex; 
   flex-direction: column;
   max-width: 90%;
-  width: fit-content; 
-  
-  
+  width: fit-content;
+}
+
   div{
     display: flex; 
     flex-direction: column;
@@ -331,7 +335,7 @@ footer p{
     min-height: 120px;
     height: fit-content;  
   }
-}
+
 
 #inventoryDisplay{
   margin: 10px auto; 
