@@ -119,8 +119,8 @@ async function accountLogin(req, res) {
             return res.redirect("/account/")
 
         } else {
+            console.log("Password doesn't match")
             res.status(400).render("account/login", {
-                console.log("Password doesn't match")
                 title: "Login", 
                 nav, 
                 errors: null, 
@@ -129,6 +129,7 @@ async function accountLogin(req, res) {
             })
         }
     } catch (error) {
+        console.log('ACCESS Forbidden Error', error)
         throw new Error('Access Forbidden', error)
     }
 }
