@@ -2,7 +2,11 @@
     <%= title %>
 </h1>
 
-<%- messages() %>
+ 
+<% if (message) { %>
+  <div class="alert"><%= message %></div>
+<% } %>
+
 <div class="management">
 
     <h2>Welcome to the CSE Motors Inventory Management System</h2>

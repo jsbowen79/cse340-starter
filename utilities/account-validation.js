@@ -168,6 +168,7 @@ validate.checkRegData = async (req, res, next) => {
         account_firstname,
         account_lastname,
         account_email,
+        message: null
       })
       return
     }
@@ -188,6 +189,7 @@ validate.checkLoginData = async (req, res, next) => {
       title: "Login",
       nav,
       account_email,
+      message: null
     })
     return
   }

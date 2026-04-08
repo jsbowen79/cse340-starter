@@ -37,7 +37,7 @@ html {
 }
 
 body {
-  justify-self: center; 
+  margin: 0 auto; 
   width: 80%; 
   border: 1px solid var(--accent-background); 
   background-color: var(--primary-background);
@@ -118,7 +118,17 @@ nav ul li{
   display: flex; 
 }
 
-.features button{
+.updateButton {
+  background-color: var(--accent-background);
+  border-radius: 10px;
+  justify-self: center;
+  color: var(--primary-text);
+  padding: 8px;
+  width: fit-content;
+  margin: 10px auto;
+}
+
+.features button, #accountBtn, .driveButton, #scheduleBtn{
   background-color: var(--accent-background);
   color: var(--primary-text); 
   border: 2px solid var(--muted-text); 
@@ -151,6 +161,7 @@ font-size: 18px;
 
 #heroDetails{
   display: block; 
+  margin: 10px auto; 
   width: auto; 
   max-width: 100%;
 }
@@ -159,16 +170,17 @@ font-size: 18px;
   width: 100%; 
 }
 
-#details{
-  padding: var(--small);
+#details, #details div{
+  padding: var(--large);
+  margin: var(--large);
 } 
 
 @media screen and (min-width: 570px){
   #detailsWrapper{
+    margin: 0 auto; 
     width: 75%; 
-    justify-self: center; 
-    justify-items: center;
   }
+
   #details{
   display: grid; 
   grid-template-columns: 1fr 1fr;
@@ -239,11 +251,16 @@ color: var(--primary-text);
   background-color: var(--secondary-accent);
 }
 
+footer{
+  margin: 20px; 
+  border-top: solid 2px var(--muted-text); 
+}
+
 footer p{
   padding: var(--small);
 }
 
-.notice{
+.notice, .alert{
   background-color: yellow;
   color: black;
   padding: 8px; 
@@ -260,7 +277,10 @@ footer p{
 .loginForm{
   max-width: 300px;
   width: 90%;
-  margin: 0 auto; 
+  margin: 20px auto; 
+  p a{
+    margin-left: 5px; 
+  }
 
 }
 
@@ -268,15 +288,6 @@ footer p{
   color: black; 
 }
 
-.updateButton{
-  background-color: var(--accent-background); 
-  border-radius: 10px;
-  justify-self: center;  
-  color: var(--primary-text); 
-  padding: 8px; 
-  width: fit-content; 
-  margin: 10px auto; 
-}
 
 .loginForm div{
   margin: 10px auto; 
@@ -392,6 +403,7 @@ footer p{
     width: 100%;
   }
 }
+
 
 /*********************large screens************************/
 

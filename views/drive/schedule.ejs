@@ -1,0 +1,52 @@
+<h1>
+    <%= title %>
+</h1>
+ 
+<% if (message) { %>
+  <div class="alert"><%= message %></div>
+<% } %>
+
+<% if (errors && errors.array().length> 0) { %>
+    <ul class="notice">
+        <% errors.array().forEach(error=> { %>
+            <li>
+                <%= error.msg %>
+            </li>
+            <% }) %>
+    </ul>
+    <% } %>
+
+
+
+        <h2>Schedule your test drive before its too late!</h2>
+        
+        <div>
+            <%- details %>
+        </div>
+        
+        
+        <form action="/drive/update" method="post" class="loginForm">
+            <div>
+                <label for="host_id">Please choose a Sales Person</label>
+                <select id="host_id" name="host_id" required><%- hostSelect %></select>
+            </div>
+            <div id="date">
+
+            </div>
+            <div>
+                <label for="drive_time">Please make a selection from the available times.</label>
+                <div id="driveTime"></div>
+            </div>
+            <div>
+                <label for="customer_name">Please enter your name</label>
+                <input type="text" id="customer_name" name="customer_name"
+                    value="<%= accountData ? accountData.account_firstname + ' ' + accountData.account_lastname : '' %>" <%=accountData ? 'readonly' : '' %>
+                >
+              
+            </div>
+            <input type="hidden" name="inv_id" value="<%= inv_id %>">
+        <button type="submit" class="driveButton">Schedule Your Test Drive</button>
+        
+        </form>
+     
+        <script src="/js/drive.js"></script>

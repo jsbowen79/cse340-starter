@@ -1,5 +1,9 @@
 <h1>Welcome to CSE Motors!</h1>
-<%- messages() %>
+ 
+<% if (message) { %>
+  <div class="alert"><%= message %></div>
+<% } %>
+
 <div class="hero">
     <img src="/images/vehicles/no-image.png"
     alt="No image available. Image loading"

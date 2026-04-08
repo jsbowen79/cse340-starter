@@ -1,6 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
     
-    console.log("in Script.js");
 
     if (window.location.pathname === "/") {
         const carsDict = {
@@ -75,5 +74,11 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
     }
+    
+    // const scheduleEL = document.getElementById("schedule"); 
+    // scheduleEL.addEventListener("click", () => {
+    //     window.location.href = "/drive/schedule"
+        
+    // })
 
 })

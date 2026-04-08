@@ -11,13 +11,14 @@ require("dotenv").config()
 * *************************************** */
 
 
-  async function buildLogin (req, res, next) {
+async function buildLogin (req, res, next) {
+    const message = req.query.message || null; 
     let nav = await utilities.getNav()
-    // req.flash("notice", "This is a flash message.")
     res.render("account/login", {
         title: "Login",
         nav,
         errors: null, 
+        message
     })
 }
 
@@ -30,7 +31,8 @@ async function buildRegistration(req, res, next) {
     res.render("account/register", {
         title: "Register", 
         nav,
-        errors : null,
+        errors: null,
+        message:null
     })
 }
 
@@ -47,11 +49,12 @@ async function registerAccount(req, res) {
     try {
         hashedPassword=await bcrypt.hashSync(account_password, 10)
     } catch (error) {
-        req.flash("notice", 'Sorry, there was an error processing the registration.')
+        console.log("password processing failure")
         res.status(500).render("account/register", {
             title: "Registration",
             nav,
             errors: null,
+            message: 'Sorry, there was an error processing the registration.'
         })
     }
     
@@ -63,20 +66,20 @@ async function registerAccount(req, res) {
     )
 
     if (regResult) {
-        req.flash(
-            "notice", `Congratulations, you\'re registered ${account_firstname}. Please log in.`
-        )
+        console.log("success")
         res.status(201).render("account/login", {
             title: "Login",
             nav,
             errors: null,
+            message: `Congratulations, you\'re registered ${account_firstname}. Please log in.`
         })
     } else {
-        req.flash("notice", "Sorry, the registration failed.")
+        console.log("serverfailure")
         res.status(501).render("account/register", {
             title: "Registration", 
             nav,
             errors: null,
+            message: 'Sorry, the registration failed.'
         })
     }
 }
@@ -92,12 +95,12 @@ async function accountLogin(req, res) {
 
 
     if (!accountData) {
-        req.flash("notice", "Please check your credentials and try again.")
         res.status(400).render("account/login", {
             title: "Login",
             nav,
             errors: null,
             account_email,
+            message: 'Please check your credentials and try again.'
         })
         return
     }
@@ -115,12 +118,12 @@ async function accountLogin(req, res) {
             return res.redirect("/account/")
 
         } else {
-            req.flash("message notice", "Please check your credentials and try again.")
             res.status(400).render("account/login", {
                 title: "Login", 
                 nav, 
                 errors: null, 
-                account_email
+                account_email,
+                message: 'Please check your credentials and try again.'
             })
         }
     } catch (error) {
@@ -132,7 +135,6 @@ async function accountLogin(req, res) {
  * Logout view
  ************************************************************************************************** */
 async function logout(req, res, next) {
-    console.log("in logout")
     res.clearCookie("jwt"); 
     res.redirect("/"); 
 }
@@ -141,13 +143,13 @@ async function logout(req, res, next) {
  * Build Account Management View
  ************************************************************************************************** */
 async function buildAccountManagement(req, res, next) {
-    console.log("in buildAccountManagement")
-    // console.log("accountData: ", accountData)
+    const message = req.query.message || null; 
     let nav = await utilities.getNav()
     res.render("account/accountManagement", {
         title: "Account Management", 
         nav,
         errors: null,
+        message,
     })
 }
 
@@ -156,12 +158,12 @@ async function buildAccountManagement(req, res, next) {
  ******************************************/
 
 async function accountUpdate(req, res, next) {
-    console.log("In accountUpdate Controller")
     let nav = await utilities.getNav()
     res.render("account/accountUpdate", {
         title: "Update Account Information", 
         nav,
         errors: null,
+        message:null
 
     })
 }
@@ -187,14 +189,15 @@ async function updatePassword(req, res) {
                 errors: {
                     array: () => [{ msg: "Current Password did not match" }]
                 },
+                message:null
             });
         }
     } catch (error) {
-        req.flash("notice", 'Sorry, there was an error validating your current password.')
         return res.status(500).render("/account/accountUpdate", {
             title: " Update Account",
             nav,
             errors: null,
+            message: 'Sorry, there was an error validating your current password.'
         })
     }
     const errors = validationResult(req); 
@@ -203,7 +206,8 @@ async function updatePassword(req, res) {
         return res.render("/account/accountUpdate", {
             title: "Update Account",
             nav,
-            errors
+            errors,
+            message:null
         });
     }
 
@@ -211,11 +215,11 @@ async function updatePassword(req, res) {
     try {
         await accountModel.updatePassword(account_id, hashedPassword);
     } catch (error) {
-        req.flash("notice", 'Sorry, there was a database error updating the password.  Try again.')
         return res.status(500).render("account/accountUpdate", {
             title: "Account Management", 
             nav,
             errors: null,
+            message:'Sorry, there was a database error updating the password.  Try again.'
             })
     }
 
@@ -227,9 +231,8 @@ async function updatePassword(req, res) {
     } else {
         res.cookie("jwt", accessToken, {httpOnly: true, secure: true, maxAge: 3600 * 1000 })
     }
-    req.flash("notice", "Password Updated Successfully."); 
     req.flash("showAccount", true); 
-    return res.redirect("/account/"); 
+    return res.redirect("/account/?message=Password%20Updated%20Successfully");
 }
     
 /*********************************************************************************************************************
@@ -237,10 +240,8 @@ async function updatePassword(req, res) {
  ****************************************************************************************************************** */
 
 async function updateAccount(req, res) {
-    console.log("in controller");
     let nav = await utilities.getNav()
     const { account_firstname, account_lastname, account_email } = req.body;
-    console.log(account_firstname, account_lastname, account_email);
     const account_id = res.locals.accountData.account_id; 
 
     const errors = validationResult(req); 
@@ -249,14 +250,14 @@ async function updateAccount(req, res) {
         return res.render("account/accountUpdate", {
             title: "Update Account",
             nav,
-            errors
+            errors,
+            message: null
         });
     }
 
     try {
         await accountModel.updateAccount(account_id, account_firstname, account_lastname, account_email);
     } catch (error) {
-        req.flash("notice", 'Sorry, there was a database error updating your account.  Try again.')
         return res.status(500).render("account/accountUpdate", {
             title: "Account Management", 
             nav,
@@ -264,13 +265,13 @@ async function updateAccount(req, res) {
             account_firstname,
             account_lastname,
             account_email,
-            account_id
+            account_id,
+            message: 'Sorry, there was a database error updating your account.  Try again.'
             })
     }
     res.clearCookie("jwt"); 
     const accountData = await accountModel.getAccountByEmail(account_email)
 
-    console.log("accountData: ",accountData)
 
     const accessToken = jwt.sign(accountData, process.env.ACCESS_TOKEN_SECRET, { expiresIn: 3600 * 1000 })
     if (process.env.NODE_ENV === 'development') {
@@ -278,9 +279,8 @@ async function updateAccount(req, res) {
     } else {
         res.cookie("jwt", accessToken, {httpOnly: true, secure: true, maxAge: 3600 * 1000 })
     }
-    req.flash("notice", "Account Information Updated Successfully."); 
     req.flash("showAccount", true); 
-    return res.redirect("/account/"); 
+    return res.redirect("/account/?message=Password%20Updated%20Successfully");
 }
          
     

@@ -1,3 +1,4 @@
+console.log("Server Start Test")
 const utilities = require("./utilities/")
 /* ******************************************
  * This server.js file is the primary file of the 
@@ -16,7 +17,8 @@ const bodyParser = require("body-parser")
 
 const static = require("./routes/static")
 const baseController = require("./controllers/baseController")
-const inventoryRoute = require("./routes/inventoryRoute.js")
+const inventoryRoute = require("./routes/inventoryRoute")
+const driveRoute = require("./routes/driveRoute")
 const inventoryDetailsRoute = require("./routes/inventoryDetailsRoute")
 const testRoute = require('./routes/testRoute')
 const accountRoute = require('./routes/accountRoute')
@@ -34,15 +36,15 @@ const cookieParser = require('cookie-parser')
   secret: process.env.SESSION_SECRET,
   resave: true,
   saveUninitialized: true,
-  name: 'sessionId',
+  name: 'sessionId',    
 }))
 
 // Express Messages Middleware
 app.use(require('connect-flash')())
-app.use(function(req, res, next){
-  res.locals.messages = require('express-messages')(req, res)
-  next()
-})
+// app.use(function(req, res, next){
+//   res.locals.messages = require('express-messages')(req, res)
+//   next()
+// })
 
 //Show account info after updates
 app.use((req, res, next) => {
@@ -98,6 +100,9 @@ app.use("/account", accountRoute)
 
 //Inventory Management Route
 app.use("/inv/management", managementRoute)
+
+//Schedule Test Drive route
+app.use("/drive", driveRoute)
 
 
 // File Not Found Route - must be last route in list

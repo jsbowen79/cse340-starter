@@ -44,18 +44,13 @@ async function getAccountByEmail(account_email) {
 }
 
 /*************************************************************************
- * REturn account data using account_id
+ * Return account data using account_id
  *********************************************************************** */
 async function getAccountById(account_id) {
-    console.log("In account by id")
-    console.log("Account Id: ", account_id); 
     try {
         const result = await pool.query(
             'SELECT * FROM account WHERE account_id =$1',
             [account_id])
-        console.log("Result: ", result);
-        console.log("Result.rows[0]", result.rows[0])
-        console.log(result.rows); 
         return result.rows[0]
     } catch (error) {
         return new Error ("No matching account_id found")

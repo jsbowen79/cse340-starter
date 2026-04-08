@@ -87,12 +87,14 @@ Util.buildProductDetail = async function (data) {
     </div>
     <p id="description">${data.inv_description}</p>
     </div>
+    <a id="scheduleBtn" href="/drive/schedule/${data.inv_id}">Schedule Test Drive</a>
     </div>`
   } else {
     details = "<h2>Sorry!  The car you were looking for was just too fast!  It is long gone!</h2>"
   }
   return details;
 }
+
 
 /* *************************************************************************************************************
  * Constructs the Classification ID element for Add Vehicle 
@@ -113,7 +115,6 @@ Util.buildClassificationList = async function (classification_id = null) {
     classificationList += ">" + row.classification_name + "</option>"
   })
   classificationList += "</select>"
-  console.log(classificationList)
   return classificationList
 }
 
@@ -134,9 +135,8 @@ Util.checkJWTToken = (req, res, next) => {
       process.env.ACCESS_TOKEN_SECRET, 
       function (err, accountData) {
         if (err) {
-          req.flash("notice", "Please Log in")
           res.clearCookie("jwt")
-          return res.redirect("/account/login")
+          return res.redirect("/account/login/?message=Please%20Log%20in.")
         }
         res.locals.accountData = accountData
         res.locals.loggedin = true; 
@@ -152,15 +152,13 @@ Util.checkJWTToken = (req, res, next) => {
  **************************************************************************************************************** */
 Util.authorization = (req, res, next) => {
   if (!res.locals.loggedin) {
-    req.flash("notice", "Please log in.");
-    return res.redirect("/account/login"); 
+    return res.redirect("/account/login/?message=Please%20Log%20in"); 
   }
 
     if (res.locals.accountData.account_type == "Employee" || res.locals.accountData.account_type == "Admin") {
     return  next()
     } else {
-    req.flash("notice", "We're sorry, you aren't authorized to use this page with this account.  Please log in with a different account.");
-    return res.redirect("/account/login"); 
+    return res.redirect("/account/login/?message=You%20aren't%20authorized%20to%20use%20this%20page."); 
   } 
  return next()
 }
@@ -170,12 +168,10 @@ Util.authorization = (req, res, next) => {
  * Check Login
  **************************************************************************************************************** */
 Util.checkLogin = (req, res, next) => {
-  console.log("logged in?: " + res.locals.loggedin)
   if (res.locals.loggedin) {
   return  next()
   } else {
-    req.flash("notice", "Please log in.")
-      return res.redirect("/account/login")
+      return res.redirect("/account/login/?message=Please%20log%20in.")
   }
 }
 

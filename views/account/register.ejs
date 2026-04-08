@@ -1,5 +1,9 @@
 <h1><%= title %></h1>
-<%- messages() %>
+ 
+<% if (message) { %>
+  <div class="alert"><%= message %></div>
+<% } %>
+
 
 <% if (errors) { %>
     <ul class="notice">

@@ -32,7 +32,6 @@ async function getInventoryByClassificationId(classification_id) {
 async function retrieveDataById(inv_id) {
   try {
    
-    console.log('inv_id', inv_id)
     const data = await pool.query(
       `SELECT * FROM public.inventory   
       WHERE inv_id = $1`,
@@ -59,8 +58,6 @@ async function processAddInventory(inv_make, inv_model, inv_year,
   inv_description, inv_image, inv_thumbnail, inv_price, inv_miles, inv_color,
   classification_id) {
   
-  console.log("Year Raw: ", JSON.stringify(inv_year))
-  console.log("Year Length: ", inv_year.length)
   try {
     const sql = "INSERT INTO inventory (inv_make, inv_model, inv_year,"
      +" inv_description, inv_image, inv_thumbnail, inv_price, inv_miles, inv_color, "

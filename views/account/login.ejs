@@ -2,7 +2,10 @@
     <%= title %>
 </h1>
 
-<%- messages() %>
+ 
+<% if (message) { %>
+  <div class="alert"><%= message %></div>
+<% } %>
 
 <% if (errors) { %>
     <ul class="notice">
@@ -36,5 +39,5 @@
         </div>
 
 
-        <p>Need an account? <a href="/account/register"> Register Here. </a></p>
+        <p>Need an account?      <a href="/account/register"> Register Here. </a></p>
     </form>
